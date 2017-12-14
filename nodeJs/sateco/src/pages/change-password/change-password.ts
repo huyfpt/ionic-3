@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { HomePage } from '../home/home';
 /**
  * Generated class for the ChangePasswordPage page.
  *
@@ -21,5 +22,7 @@ export class ChangePasswordPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChangePasswordPage');
   }
-
+  changepass(){
+  	this.navCtrl.setRoot(HomePage);
+  }
 }

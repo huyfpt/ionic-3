@@ -43,6 +43,9 @@ $colors: (
   primarydark:#1a1b1c
 );
 
+$toolbar-background: color(
+  $colors, cover
+);
 
 // App iOS Variables
 // --------------------------------------------------
