@@ -12,14 +12,14 @@ import { SecurityProvider } from '../../providers/security/security';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
-
+  username: string;
+  password: string;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private securityProvider: SecurityProvider,) {
   }
@@ -28,20 +28,28 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
   loginUser(){
-    // this.getDataJson();
-  	this.navCtrl.setRoot(HomePage);
-  }
-  getDataJson() {
-    this.securityProvider.getData()
+     if((this.username == undefined || this.username == "") && (this.password == undefined || this.password == "")){
+      alert("Username or Password is not empty");
+      return;
+    }
+
+    let infoUser: Object = {
+      username: this.username,
+      password: this.password
+    };      
+    this.securityProvider.login(infoUser)
         .then((result) =>{
-            this.showData(result);
-    });
-  }
-  showData(user) {
-    console.log(user);
+            this.checkLogin(result);
+        });
   }
 
+  checkLogin(res) {
+    if(res.status == "200"){
+      this.navCtrl.setRoot(HomePage);
+    }else{
+      alert(res.message);
+    }
+  }
 }
-
 
 

@@ -17,8 +17,8 @@ import { SecurityProvider } from '../../providers/security/security';
   templateUrl: 'siginup.html',
 })
 export class SiginupPage {
-  resposeData: any;
-  userData = {"user_name":"", "password":""};
+  username: string;
+  password: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public securityProvider: SecurityProvider,
     private toastCtrl:ToastController) {
   }
@@ -27,33 +27,49 @@ export class SiginupPage {
     console.log('ionViewDidLoad SiginupPage');
   }
   register(){
-    if(this.userData.user_name && this.userData.password ){
-      //Api connections
-    this.securityProvider.postData(this.userData).then((result) =>{
-    this.resposeData = result;
-    // if(this.resposeData.userData){
-      // console.log(this.resposeData);
-      localStorage.setItem('userData', JSON.stringify(this.resposeData) )
-      this.navCtrl.push(LoginPage);
-    // }
+    if((this.username == undefined || this.username == "") && (this.password == undefined || this.password == "")){
+      alert("Username or Password is not empty");
+      return;
+    }
     
-    
-    }, (err) => {
-      //Connection failed message
-    });
-  }
-  else {
-    this.presentToast("Give valid information.");
-  }
-  
-  }
-  presentToast(msg) {
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000
-    });
-    toast.present();
+    let validateUsername = this.validateUsername(this.username);
+    let validatePassword = this.validatePassword(this.password);
+    if(validateUsername && validatePassword){
+      let infoUser: Object = {
+        username: this.username,
+        password: this.password
+      }; 
+      this.securityProvider.signup(infoUser)
+        .then((result) =>{
+            this.checkSignup(result);
+        });
+    }         
   }
 
+  checkSignup(res) {
+    if(res.status == "200"){
+      alert(res.message);
+      this.navCtrl.setRoot(LoginPage);
+    }else{
+      alert(res.message);
+    }
+  }
+
+  validateUsername(username) {
+    if(username.search(/^([a-zA-Z]+[a-zA-Z0-9]+){3,30}$/) < 0){
+      alert("Username length 3 to 30 characters");
+      return false;
+    }
+
+    return true;
+  }
+
+  validatePassword(password) {
+    if(password.search(/^[a-zA-Z0-9]{6,30}$/) < 0){
+      alert("Password about 6 to 30 characters");
+      return false;
+    }
+
+    return true;
+  }
 }
-
