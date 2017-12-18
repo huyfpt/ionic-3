@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
 import { HomePage } from '../home/home';
 import { SecurityProvider } from '../../providers/security/security';
@@ -18,23 +18,23 @@ import { SecurityProvider } from '../../providers/security/security';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  username: string;
+  user_name: string;
   password: string;
+  // message: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private securityProvider: SecurityProvider,) {
+    private securityProvider: SecurityProvider, private toastCtrl:ToastController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
   loginUser(){
-     if((this.username == undefined || this.username == "") && (this.password == undefined || this.password == "")){
-      alert("Username or Password is not empty");
+     if((this.user_name == undefined || this.user_name == "") && (this.password == undefined || this.password == "")){
+      this.presentToast("user_name or Password is not empty");
       return;
     }
-
     let infoUser: Object = {
-      username: this.username,
+      user_name: this.user_name,
       password: this.password
     };      
     this.securityProvider.login(infoUser)
@@ -43,12 +43,19 @@ export class LoginPage {
         });
   }
 
-  checkLogin(res) {
-    if(res.status == "200"){
-      this.navCtrl.setRoot(HomePage);
-    }else{
-      alert(res.message);
-    }
+  presentToast(mes) {
+    let toast = this.toastCtrl.create({
+      message: mes,
+      duration: 3000
+    });
+    toast.present();
+  }
+  checkLogin(res){
+    if(res.status == '200'){
+        this.navCtrl.push(HomePage);
+      }else{
+        this.presentToast(res.message);
+      }
   }
 }
 

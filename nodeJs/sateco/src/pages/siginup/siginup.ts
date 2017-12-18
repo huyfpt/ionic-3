@@ -17,7 +17,7 @@ import { SecurityProvider } from '../../providers/security/security';
   templateUrl: 'siginup.html',
 })
 export class SiginupPage {
-  username: string;
+  user_name: string;
   password: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public securityProvider: SecurityProvider,
     private toastCtrl:ToastController) {
@@ -27,37 +27,36 @@ export class SiginupPage {
     console.log('ionViewDidLoad SiginupPage');
   }
   register(){
-    if((this.username == undefined || this.username == "") && (this.password == undefined || this.password == "")){
-      alert("Username or Password is not empty");
+    if((this.user_name == undefined || this.user_name == "") && (this.password == undefined || this.password == "")){
+       this.presentToast("user_name or Password is not empty");
       return;
     }
     
-    let validateUsername = this.validateUsername(this.username);
+    let validateuser_name = this.validateuser_name(this.user_name);
     let validatePassword = this.validatePassword(this.password);
-    if(validateUsername && validatePassword){
+    if(validateuser_name && validatePassword){
       let infoUser: Object = {
-        username: this.username,
+        user_name: this.user_name,
         password: this.password
       }; 
       this.securityProvider.signup(infoUser)
         .then((result) =>{
-            this.checkSignup(result);
+          this.checkSignup(result);
         });
     }         
   }
 
-  checkSignup(res) {
-    if(res.status == "200"){
-      alert(res.message);
-      this.navCtrl.setRoot(LoginPage);
-    }else{
-      alert(res.message);
-    }
+  presentToast(mes) {
+    let toast = this.toastCtrl.create({
+      message: mes,
+      duration: 3000
+    });
+    toast.present();
   }
 
-  validateUsername(username) {
-    if(username.search(/^([a-zA-Z]+[a-zA-Z0-9]+){3,30}$/) < 0){
-      alert("Username length 3 to 30 characters");
+  validateuser_name(user_name) {
+    if(user_name.search(/^[a-zA-Z0-9]{3,30}$/) < 0){
+       this.presentToast("username length 3 to 30 characters");
       return false;
     }
 
@@ -66,10 +65,17 @@ export class SiginupPage {
 
   validatePassword(password) {
     if(password.search(/^[a-zA-Z0-9]{6,30}$/) < 0){
-      alert("Password about 6 to 30 characters");
+       this.presentToast("Password about 6 to 30 characters");
       return false;
     }
 
     return true;
+  }
+  checkSignup(res){
+    if(res.status == '200'){
+        this.navCtrl.push(LoginPage);
+      }else{
+        this.presentToast(res.message);
+      }
   }
 }
