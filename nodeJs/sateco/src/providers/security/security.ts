@@ -1,8 +1,8 @@
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
-let apiUrl = 'user';
+let apiUrl = 'user/';
 /*
   Generated class for the SecurityProvider provider.
 
@@ -15,10 +15,10 @@ export class SecurityProvider {
   constructor(public http: Http) {
     console.log('Hello SecurityProvider Provider');
   }
-getData(){
+getData(id){
     return new Promise((resolve, reject) =>{
       // let headers = new Headers();
-      this.http.get(apiUrl).
+      this.http.get(apiUrl+id).
       subscribe(res =>{
         resolve(res.json());
       }, (err) =>{

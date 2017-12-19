@@ -13,7 +13,8 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SecurityProvider } from '../providers/security/security';
-
+import { IonicStorageModule } from '@ionic/storage';
+import { CommonProvider } from '../providers/common/common';
 
 
 
@@ -31,6 +32,9 @@ import { SecurityProvider } from '../providers/security/security';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
+    IonicStorageModule.forRoot({
+     
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -45,7 +49,8 @@ import { SecurityProvider } from '../providers/security/security';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    SecurityProvider
+    SecurityProvider,
+    CommonProvider
   ]
 })
 export class AppModule {}

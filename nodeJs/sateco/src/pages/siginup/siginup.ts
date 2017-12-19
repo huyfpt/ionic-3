@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 
 import {LoginPage} from '../login/login';
 
+import { CommonProvider } from '../../providers/common/common';
 import { SecurityProvider } from '../../providers/security/security';
 /**
  * Generated class for the SiginupPage page.
@@ -20,7 +21,8 @@ export class SiginupPage {
   user_name: string;
   password: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public securityProvider: SecurityProvider,
-    private toastCtrl:ToastController) {
+    private toastCtrl:ToastController, public commonPovider: CommonProvider) {
+   
   }
 
   ionViewDidLoad() {
@@ -28,7 +30,7 @@ export class SiginupPage {
   }
   register(){
     if((this.user_name == undefined || this.user_name == "") && (this.password == undefined || this.password == "")){
-       this.presentToast("user_name or Password is not empty");
+       this.commonPovider.presentToast("user_name or Password is not empty");
       return;
     }
     
@@ -46,17 +48,11 @@ export class SiginupPage {
     }         
   }
 
-  presentToast(mes) {
-    let toast = this.toastCtrl.create({
-      message: mes,
-      duration: 3000
-    });
-    toast.present();
-  }
+  
 
   validateuser_name(user_name) {
     if(user_name.search(/^[a-zA-Z0-9]{3,30}$/) < 0){
-       this.presentToast("username length 3 to 30 characters");
+       this.commonPovider.presentToast("username length 3 to 30 characters");
       return false;
     }
 
@@ -65,7 +61,7 @@ export class SiginupPage {
 
   validatePassword(password) {
     if(password.search(/^[a-zA-Z0-9]{6,30}$/) < 0){
-       this.presentToast("Password about 6 to 30 characters");
+       this.commonPovider.presentToast("Password about 6 to 30 characters");
       return false;
     }
 
@@ -75,7 +71,7 @@ export class SiginupPage {
     if(res.status == '200'){
         this.navCtrl.push(LoginPage);
       }else{
-        this.presentToast(res.message);
+        this.commonPovider.presentToast(res.message);
       }
   }
 }
