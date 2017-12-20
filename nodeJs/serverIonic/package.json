@@ -1,0 +1,26 @@
+{
+  "name": "noderestful",
+  "version": "1.0.0",
+  "description": "Node Restful",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "restful"
+  ],
+  "author": "Srinivas Tamada",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "class-validator": "^0.7.3",
+    "crypto-js": "^3.1.9-1",
+    "es6-shim": "^0.35.3",
+    "hapi": "^16.1.0",
+    "joi": "^10.6.0",
+    "md5": "^2.2.1",
+    "mysql": "^2.13.0",
+    "sha256": "^0.2.0"
+  }
+}
