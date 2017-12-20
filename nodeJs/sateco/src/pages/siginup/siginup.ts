@@ -29,8 +29,12 @@ export class SiginupPage {
     console.log('ionViewDidLoad SiginupPage');
   }
   register(){
-    if((this.user_name == undefined || this.user_name == "") && (this.password == undefined || this.password == "")){
-       this.commonPovider.presentToast("user_name or Password is not empty");
+    if((this.user_name == undefined || this.user_name == "")){
+      this.commonPovider.presentToast("user_name is not empty");
+      return;
+    }
+    if((this.password == undefined || this.password == "")){
+      this.commonPovider.presentToast("Password is not empty");
       return;
     }
     

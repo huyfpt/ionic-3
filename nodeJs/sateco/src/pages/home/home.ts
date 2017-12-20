@@ -13,8 +13,9 @@ export class HomePage {
   constructor(public navCtrl: NavController, public securityProvider: SecurityProvider, public storage: Storage) {
   	this.storage.get('user_name').then((val) => {
        this.user_name = val;
-       // console.log(val);
+       console.log(val);
     });
+    
   }
 
 }

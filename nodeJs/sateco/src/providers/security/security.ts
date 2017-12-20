@@ -48,4 +48,14 @@ getData(id){
       });
     });    
   }
+  changePass(infoUser: Object){
+    return new Promise((resolve, reject) =>{
+      this.http.post('/changePass', infoUser).
+      subscribe(res =>{
+        resolve(res.json());
+      }, (err) =>{
+        reject(err);
+      });
+    }); 
+  }
 }

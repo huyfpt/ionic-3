@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { HomePage } from '../home/home';
@@ -22,10 +22,11 @@ import { CommonProvider } from '../../providers/common/common';
 export class LoginPage {
   user_name: string;
   password: string;
+  user_id: number;
   
   // message: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private securityProvider: SecurityProvider, private toastCtrl:ToastController,
+    private securityProvider: SecurityProvider,
     public storage: Storage, public commonPovider: CommonProvider) {
   }
 
@@ -33,9 +34,13 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
   loginUser(){
-     if((this.user_name == undefined || this.user_name == "") && (this.password == undefined || this.password == "")){
-      this.commonPovider.presentToast("username or Password is not empty");
-      return;
+     if((this.user_name == undefined || this.user_name == "")){
+      this.commonPovider.presentToast("Username is not empty");
+      return; 
+    }
+    if((this.password == undefined || this.password == "")){
+       this.commonPovider.presentToast("Password is not empty");
+      return; 
     }
     let infoUser: Object = {
       user_name: this.user_name,
@@ -51,7 +56,8 @@ export class LoginPage {
   checkLogin(res){
     if(res.status == '200'){
        this.storage.set('user_name', res.results[0].user_name);
-      // console.log(name);
+       this.storage.set('user_id', res.results[0].user_id);
+      console.log(this.storage.set('user_id', res.results[0].user_id));
       this.navCtrl.push(HomePage);
       } else {
         this.commonPovider.presentToast(res.message);
