@@ -8,19 +8,28 @@
 
   <ion-content>
     <ion-list>
-
+      <button menuClose ion-item *ngFor="let h of home" (click)="openHome()">
+      <ion-icon [name]="h.icon"></ion-icon>
+        {{h.title}}
+      </button>
+    </ion-list>
+    <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
       <ion-icon [name]="p.icon"></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
-   
-      
+    <ion-list>
+      <button menuClose  ion-item *ngFor="let m of map" (click)="mapClick()">
+      <ion-icon [name]="m.icon"> </ion-icon>
+      {{m.title}}</button>
+    </ion-list>
     <ion-footer class="menu-footer">
      <button color="primarydark" menuClose  ion-item *ngFor="let l of logout" (click)="logoutSession()">
       <ion-icon [name]="l.icon"> </ion-icon>{{l.title}}</button>
     </ion-footer>
   </ion-content>
+     
 
 </ion-menu>
 

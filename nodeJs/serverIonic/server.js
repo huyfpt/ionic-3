@@ -160,3 +160,46 @@ server.route({
         });
     }
 });
+
+server.route({
+    method: 'GET',
+    path: '/getDivice',
+    handler: function (request, reply) {
+        connection.query('SELECT * FROM devices WHERE updated IN (SELECT MAX(updated) FROM devices)', function (error, results) {
+            if(error){
+                console.log(error);
+                reply({status: '201', message: 'Error connect data'});
+                return;
+            } 
+            reply({status: '200', message: 'Get device success', results});
+        });
+    }
+});
+
+var interval = setInterval(function(){
+    getDiviceLastTime();
+},5*60*100);
+
+function getDiviceLastTime(){
+     connection.query('SELECT * FROM devices WHERE updated IN (SELECT MAX(updated) FROM devices)', function (error, results) {
+        if(error){
+            console.log(error);
+            return;
+        } else {
+            insertDevices(results[0]);
+        }
+    });
+}
+
+function insertDevices(devices){
+    var lat = parseFloat(devices.lat) + 0.01;
+    var long = parseFloat(devices.long) + 0.01;
+    var query = 'INSERT INTO `devices`(`lat`, `long`) VALUES ('+ lat +', '+ long +')';
+
+    connection.query(query, function (error, results) {
+        if (error){
+            console.log(error);
+            return;
+        }
+    });
+}

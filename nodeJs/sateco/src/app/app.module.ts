@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { HttpModule, Http} from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -10,12 +9,15 @@ import { LoginPage } from '../pages/login/login';
 import { SiginupPage } from '../pages/siginup/siginup';
 import { ChangePasswordPage } from '../pages/change-password/change-password';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { MapPage } from '../pages/map/map';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Geolocation } from '@ionic-native/geolocation';
 import { SecurityProvider } from '../providers/security/security';
 import { IonicStorageModule } from '@ionic/storage';
 import { CommonProvider } from '../providers/common/common';
+import { GeoLocationProvider } from '../providers/geo-location/geo-location';
 
 
 
@@ -28,12 +30,12 @@ import { CommonProvider } from '../providers/common/common';
     SiginupPage,
     ChangePasswordPage,
     WelcomePage,
+    MapPage,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    HttpClientModule,
     IonicStorageModule.forRoot({
      
     })
@@ -46,13 +48,16 @@ import { CommonProvider } from '../providers/common/common';
     SiginupPage,
     ChangePasswordPage,
     WelcomePage,
+    MapPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SecurityProvider,
-    CommonProvider
+    CommonProvider,
+    GeoLocationProvider
   ]
 })
 export class AppModule {}

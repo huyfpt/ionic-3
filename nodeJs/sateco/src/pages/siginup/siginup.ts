@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import {LoginPage} from '../login/login';
-
 import { CommonProvider } from '../../providers/common/common';
 import { SecurityProvider } from '../../providers/security/security';
 /**
@@ -20,8 +19,8 @@ import { SecurityProvider } from '../../providers/security/security';
 export class SiginupPage {
   user_name: string;
   password: string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public securityProvider: SecurityProvider,
-    private toastCtrl:ToastController, public commonPovider: CommonProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+  public securityProvider: SecurityProvider, public commonPovider: CommonProvider) {
    
   }
 
@@ -30,7 +29,7 @@ export class SiginupPage {
   }
   register(){
     if((this.user_name == undefined || this.user_name == "")){
-      this.commonPovider.presentToast("user_name is not empty");
+      this.commonPovider.presentToast("Username is not empty");
       return;
     }
     if((this.password == undefined || this.password == "")){
@@ -52,8 +51,6 @@ export class SiginupPage {
     }         
   }
 
-  
-
   validateuser_name(user_name) {
     if(user_name.search(/^[a-zA-Z0-9]{3,30}$/) < 0){
        this.commonPovider.presentToast("username length 3 to 30 characters");
@@ -71,6 +68,7 @@ export class SiginupPage {
 
     return true;
   }
+  
   checkSignup(res){
     if(res.status == '200'){
         this.navCtrl.push(LoginPage);
